@@ -1,0 +1,5 @@
+/target/
+.lein-repl-history
+.lein-failures
+.nrepl-port
+.DS_Store
