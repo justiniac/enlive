@@ -3,3 +3,7 @@
 .lein-failures
 .nrepl-port
 .DS_Store
+.classpath
+.project
+/.settings/
+/bin/
