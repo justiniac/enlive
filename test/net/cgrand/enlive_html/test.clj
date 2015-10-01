@@ -12,7 +12,9 @@
   (:use net.cgrand.enlive-html)
   (:require [net.cgrand.xml :as xml])
   (:require [clojure.zip :as z])
-  (:use [clojure.test :only [deftest is are run-all-tests]]))
+  (:use [clojure.test :only [deftest is are run-all-tests use-fixtures]])
+  (:require [net.cgrand.tagsoup :as tagsoup]
+            [net.cgrand.jsoup :as jsoup]))
 
 ;; test utilities
 (defn- normalize [x]
@@ -314,3 +316,24 @@
         "A B"))
   (is (= ((replace-words {"Donald" "Mickey" "Duck" "Mouse"}) "Donald Duckling Duck")
         "Mickey Duckling Mouse")))
+
+(deftest jsoup-snippet
+  ;; Jsoup always generates a head
+  (is (= (html-resource (-> "<html><head></head><body><h1>Hi, cgrand!</h1></body></html>"
+                          (.getBytes "UTF-8")
+                          java.io.ByteArrayInputStream.)
+                        {:parser tagsoup/parser})
+         (html-resource (-> "<html><head></head><body><h1>Hi, cgrand!</h1></body></html>"
+                          (.getBytes "UTF-8")
+                          java.io.ByteArrayInputStream.)
+                        {:parser jsoup/parser}))))
+
+(defn fixture-jsoup-parser [f]
+  (set-ns-parser! jsoup/parser)
+  (f))
+
+(defn fixture-tsoup-parser [f]
+  (set-ns-parser! tagsoup/parser)
+  (f))
+
+(use-fixtures :each fixture-tsoup-parser fixture-jsoup-parser)
