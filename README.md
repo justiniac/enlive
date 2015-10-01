@@ -24,6 +24,11 @@ All artifacts are published to [clojars](https://clojars.org/enlive). Latest ver
 
 (most recent first)
 
+NEXT
+- FIX: #90 html-snippet doesn't work with Jsoup parser
+- ADD: Jsoup 1.8.3
+- ADD: build with clojure 1.7.0
+
 1.1.6:
 - ADD: exception message when html-resource not found.
 - FIX: auto-reload on windows (also works with chestnut).
